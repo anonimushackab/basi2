@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+# Add this permissions block
+permissions:
+  contents: write
+
 jobs:
   versionamento:
     runs-on: ubuntu-latest
@@ -12,6 +16,8 @@ jobs:
     steps:
       - name: Checkout del repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Importante per avere la storia completa dei tag
 
       - name: Configura Git
         run: |
@@ -23,7 +29,7 @@ jobs:
 
       - name: Genera la nuova versione
         run: |
-          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "")
           if [ -z "$LATEST_TAG" ]; then
             NEW_TAG="v1.0.0"
           else
@@ -31,8 +37,8 @@ jobs:
             NEW_TAG=$(echo $LATEST_TAG | awk -F. '{$NF++; print $1"."$2"."$3}' OFS='.')
           fi
           echo "Nuova versione: $NEW_TAG"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
           git tag $NEW_TAG
 
       - name: Push nuovo tag su GitHub
-        run: |
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/anonimushackab/basi2.git $NEW_TAG
+        run: git push origin ${{ env.NEW_TAG }}
