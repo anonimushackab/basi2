@@ -29,4 +29,10 @@ public interface EventoRepository extends MongoRepository<Evento, String> {
     List<Evento> findEventiByNomeContaining(String nome);
 
     Optional<Evento> findById(String id);
+
+    Evento save(Evento evento);
+
+    boolean existsById(String eventoId);
+
+    void deleteById(String eventoId);
 }
