@@ -16,4 +16,9 @@ public interface PrenotazioneRepository extends MongoRepository<Prenotazione, St
 
     Optional<List<Prenotazione>> findByDataPrenotazione(LocalDateTime dataPrenotazione);
 
+    Prenotazione save(Prenotazione prenotazione);
+
+    boolean existsById(String prenotazioneId);
+
+    void deleteById(String prenotazioneId);
 }

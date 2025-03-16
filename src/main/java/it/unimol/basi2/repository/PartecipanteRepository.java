@@ -13,4 +13,10 @@ public interface PartecipanteRepository extends MongoRepository<Partecipante, St
     Optional<Partecipante> findById(String id);
 
     Optional<List<Partecipante>> findByNome(String nome);
+
+    Partecipante save(Partecipante partecipante);
+
+    boolean existsById(String partecipanteId);
+
+    void deleteById(String partecipanteId);
 }
