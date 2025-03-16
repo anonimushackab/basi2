@@ -32,4 +32,7 @@ jobs:
           fi
           echo "Nuova versione: $NEW_TAG"
           git tag $NEW_TAG
-          git push origin $NEW_TAG
+
+      - name: Push nuovo tag su GitHub
+        run: |
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/anonimushackab/basi2.git $NEW_TAG
