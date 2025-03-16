@@ -14,7 +14,5 @@ public interface EventoRepository extends MongoRepository<Evento, String> {
     
     Optional<List<Evento>> findByLuogo(String luogo);
 
-    @Query("{ 'nome': ?0 }")
-    Optional<Evento> trovaPerNome(String nome);
 
 }
