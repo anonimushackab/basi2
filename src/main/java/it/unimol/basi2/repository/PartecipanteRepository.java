@@ -17,4 +17,6 @@ public interface PartecipanteRepository extends MongoRepository<Partecipante, St
     Partecipante save(Partecipante partecipante);
 
     boolean existsById(String partecipanteId);
+
+    void deleteById(String partecipanteId);
 }
