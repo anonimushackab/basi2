@@ -18,6 +18,7 @@ public class Prenotazione {
     private LocalDateTime dataPrenotazione;
     private int numeroBiglietti;
 
-    public Throwable getNomeCliente() {
+    public Throwable getNomeCliente(){
+        return null;
     }
 }
