@@ -17,4 +17,7 @@ public class Prenotazione {
     private String partecipanteId; // Riferimento al partecipante
     private LocalDateTime dataPrenotazione;
     private int numeroBiglietti;
+
+    public Throwable getNomeCliente() {
+    }
 }
