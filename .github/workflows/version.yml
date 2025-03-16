@@ -18,12 +18,16 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
+      - name: Recupera i tag remoti
+        run: git fetch --tags
+
       - name: Genera la nuova versione
         run: |
-          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
           if [ -z "$LATEST_TAG" ]; then
             NEW_TAG="v1.0.0"
           else
+            # Incrementa la versione minor
             NEW_TAG=$(echo $LATEST_TAG | awk -F. '{$NF++; print $1"."$2"."$3}' OFS='.')
           fi
           echo "Nuova versione: $NEW_TAG"
