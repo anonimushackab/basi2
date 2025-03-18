@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/eventi")
 public class EventoController {
 
-    @Autowired
+    @Autowired      // questo cerca automaticamente un bean compatibile e lo inietta
     private EventoService eventoService;
 
     // CREATE: Inserisci un nuovo evento
