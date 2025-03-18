@@ -18,7 +18,7 @@ public class PartecipanteController {
     private PartecipanteService partecipanteService;
 
     // CREATE: Inserisci un nuovo partecipante
-    @PostMapping
+    @PostMapping("create")
     public ResponseEntity<Partecipante> createPartecipante(@RequestBody Partecipante partecipante) {
         Partecipante nuovoPartecipante = partecipanteService.insertPartecipante(partecipante);
         return nuovoPartecipante != null ? ResponseEntity.ok(nuovoPartecipante) : ResponseEntity.badRequest().build();
@@ -46,7 +46,7 @@ public class PartecipanteController {
     }
 
     // READ: Ottieni tutti i partecipanti
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<List<Partecipante>> getAllPartecipanti() {
         List<Partecipante> partecipanti = partecipanteService.getAllPartecipanti();
         return partecipanti.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(partecipanti);
