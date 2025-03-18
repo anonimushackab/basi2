@@ -18,7 +18,7 @@ public class EventoController {
     private EventoService eventoService;
 
     // CREATE: Inserisci un nuovo evento
-    @PostMapping
+    @PostMapping("create")
     public ResponseEntity<Evento> createEvento(@RequestBody Evento evento) {
         Evento nuovoEvento = eventoService.insertEvento(evento);
         return nuovoEvento != null ? ResponseEntity.ok(nuovoEvento) : ResponseEntity.badRequest().build();
@@ -39,17 +39,17 @@ public class EventoController {
     }
 
     // READ: Ottieni tutti gli eventi
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<List<Evento>> getAllEventi() {
         List<Evento> eventi = eventoService.getAllEventi();
-        return eventi.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(eventi);
+        return ResponseEntity.ok(eventi);
     }
 
     // READ: Ottieni tutti gli eventi in un determinato luogo
     @GetMapping("/luogo/{luogo}")
     public ResponseEntity<List<Evento>> getEventiByLuogo(@PathVariable String luogo) {
         List<Evento> eventi = eventoService.getEventiByLuogo(luogo);
-        return eventi.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(eventi);
+        return ResponseEntity.ok(eventi);
     }
 
     // READ: Ottieni tutti gli eventi futuri
