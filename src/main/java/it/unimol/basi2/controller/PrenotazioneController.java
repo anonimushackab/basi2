@@ -1,6 +1,7 @@
 package it.unimol.basi2.controller;
 import it.unimol.basi2.entity.Prenotazione;
 import it.unimol.basi2.service.PrenotazioneService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/prenotazioni")
+@AllArgsConstructor
 public class PrenotazioneController {
 
     @Autowired
@@ -46,7 +48,7 @@ public class PrenotazioneController {
     }
 
     // READ: Ottieni tutte le prenotazioni
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<List<Prenotazione>> getAllPrenotazioni() {
         List<Prenotazione> prenotazioni = prenotazioneService.getAllPrenotazioni();
         return prenotazioni.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(prenotazioni);

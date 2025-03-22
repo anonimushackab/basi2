@@ -1,6 +1,7 @@
 package it.unimol.basi2.controller;
 import it.unimol.basi2.entity.Evento;
 import it.unimol.basi2.service.EventoService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/eventi")
+@AllArgsConstructor
 public class EventoController {
 
     @Autowired      // questo cerca automaticamente un bean compatibile e lo inietta

@@ -2,6 +2,7 @@ package it.unimol.basi2.controller;
 
 import it.unimol.basi2.entity.Partecipante;
 import it.unimol.basi2.service.PartecipanteService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/partecipanti")
+@AllArgsConstructor
 public class PartecipanteController {
 
     @Autowired
