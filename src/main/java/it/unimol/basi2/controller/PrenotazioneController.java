@@ -20,7 +20,7 @@ public class PrenotazioneController {
     private PrenotazioneService prenotazioneService;
 
     // CREATE: Inserisci una nuova prenotazione
-    @PostMapping
+    @PostMapping("create")
     public ResponseEntity<Prenotazione> createPrenotazione(@RequestBody Prenotazione prenotazione) {
         Prenotazione nuovaPrenotazione = prenotazioneService.insertPrenotazione(prenotazione);
         return ResponseEntity.ok(nuovaPrenotazione);
@@ -33,18 +33,17 @@ public class PrenotazioneController {
         return prenotazione.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // READ: Ottieni tutte le prenotazioni per nome cliente
-    @GetMapping("/cliente/{nomeCliente}")
-    public ResponseEntity<List<Prenotazione>> getPrenotazioniByNomeCliente(@PathVariable String nomeCliente) {
-        Optional<List<Prenotazione>> prenotazioni = prenotazioneService.getPrenotazioniByNomeCliente(nomeCliente);
-        return prenotazioni.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
-    }
 
     // READ: Ottieni tutte le prenotazioni per data
     @GetMapping("/data")
     public ResponseEntity<List<Prenotazione>> getPrenotazioniByDataPrenotazione(@RequestParam LocalDateTime dataPrenotazione) {
-        Optional<List<Prenotazione>> prenotazioni = prenotazioneService.getPrenotazioniByDataPrenotazione(dataPrenotazione);
-        return prenotazioni.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+        List<Prenotazione> prenotazioni = prenotazioneService.getPrenotazioniByDataPrenotazione(dataPrenotazione);
+
+        if (prenotazioni.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(prenotazioni);
+        }
     }
 
     // READ: Ottieni tutte le prenotazioni
@@ -56,8 +55,8 @@ public class PrenotazioneController {
 
     // UPDATE: Aggiorna una prenotazione esistente
     @PutMapping("/{id}")
-    public ResponseEntity<Prenotazione> updatePrenotazione(@PathVariable String id, @RequestBody Prenotazione prenotazione) {
-        prenotazione.setId(id); // Assicurati che l'ID sia impostato correttamente
+    public ResponseEntity<Prenotazione> updatePrenotazione(@PathVariable String eventoId, @RequestBody Prenotazione prenotazione) {
+        prenotazione.setEventoId(eventoId); // Assicurati che l'ID sia impostato correttamente
         Optional<Prenotazione> prenotazioneAggiornata = prenotazioneService.updatePrenotazione(prenotazione);
         return prenotazioneAggiornata.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
