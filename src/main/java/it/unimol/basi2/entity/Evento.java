@@ -17,7 +17,6 @@ public class Evento {
     private LocalDateTime data;
     private String luogo;
     private int capacitaMassima;
-    private int postiDisponibili;
     private double prezzo;
 }
 
