@@ -10,15 +10,13 @@ import java.util.Optional;
 
 @Repository
 public interface PrenotazioneRepository extends MongoRepository<Prenotazione, String> {
-    Optional<Prenotazione> findById(String id);
 
-    Optional<List<Prenotazione>> findByNomeCliente(String nomeCliente);
+    List<Prenotazione> findByPartecipanteId(String nomeCliente);
 
-    Optional<List<Prenotazione>> findByDataPrenotazione(LocalDateTime dataPrenotazione);
+    List<Prenotazione> findByDataPrenotazione(LocalDateTime dataPrenotazione);
 
-    Prenotazione save(Prenotazione prenotazione);
+    List<Prenotazione> findByEventoId(String eventoId);
 
-    boolean existsById(String prenotazioneId);
+    int countByEventoId(String eventoId);
 
-    void deleteById(String prenotazioneId);
 }
