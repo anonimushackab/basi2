@@ -11,14 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 
 public class Prenotazione {
-    @Id
-    private String id;
     private String eventoId; // Riferimento all'evento prenotato
     private String partecipanteId; // Riferimento al partecipante
     private LocalDateTime dataPrenotazione;
     private int numeroBiglietti;
-
-    public Throwable getNomeCliente(){
-        return null;
-    }
 }
