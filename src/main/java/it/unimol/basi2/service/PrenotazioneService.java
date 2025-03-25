@@ -1,11 +1,15 @@
 package it.unimol.basi2.service;
 
+import it.unimol.basi2.entity.Evento;
 import it.unimol.basi2.entity.Prenotazione;
+import it.unimol.basi2.repository.EventoRepository;
 import it.unimol.basi2.repository.PrenotazioneRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,12 +19,26 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PrenotazioneService {
     private static final Logger logger = LoggerFactory.getLogger(PrenotazioneService.class);
-    private final PrenotazioneRepository prenotazioneRepository;
+
+    @Autowired
+    private EventoRepository eventoRepository;
+    @Autowired
+    private PrenotazioneRepository prenotazioneRepository;
 
     // CREATE: Inserisci una nuova prenotazione
+    @Transactional
     public Prenotazione insertPrenotazione(Prenotazione prenotazione) {
-        logger.info("Inserimento prenotazione per il cliente: {}", prenotazione.getNomeCliente());
-        return prenotazioneRepository.save(prenotazione);
+        // Logica per controllare la disponibilità dei posti
+        Evento evento = eventoRepository.findById(prenotazione.getEventoId())
+                .orElseThrow(() -> new RuntimeException("Evento non trovato"));
+
+        if (evento.getCapacitaMassima() - prenotazioneRepository.countByEventoId(evento.getId()) >= prenotazione.getNumeroBiglietti()) {
+            throw new RuntimeException("Posti non disponibili");
+        }
+
+        // Inserisci la prenotazione
+        Prenotazione nuovaPrenotazione = prenotazioneRepository.save(prenotazione);
+        return nuovaPrenotazione;
     }
 
     // READ: Ottieni una prenotazione per ID
@@ -28,13 +46,9 @@ public class PrenotazioneService {
         return prenotazioneRepository.findById(prenotazioneId);
     }
 
-    // READ: Ottieni tutte le prenotazioni per nome cliente
-    public Optional<List<Prenotazione>> getPrenotazioniByNomeCliente(String nomeCliente) {
-        return prenotazioneRepository.findByNomeCliente(nomeCliente);
-    }
 
     // READ: Ottieni tutte le prenotazioni per data
-    public Optional<List<Prenotazione>> getPrenotazioniByDataPrenotazione(LocalDateTime dataPrenotazione) {
+    public List<Prenotazione> getPrenotazioniByDataPrenotazione(LocalDateTime dataPrenotazione) {
         return prenotazioneRepository.findByDataPrenotazione(dataPrenotazione);
     }
 
@@ -45,12 +59,12 @@ public class PrenotazioneService {
 
     // UPDATE: Aggiorna una prenotazione esistente
     public Optional<Prenotazione> updatePrenotazione(Prenotazione prenotazione) {
-        Optional<Prenotazione> existingPrenotazione = prenotazioneRepository.findById(prenotazione.getId());
+        Optional<Prenotazione> existingPrenotazione = prenotazioneRepository.findById(prenotazione.getEventoId());
         if (existingPrenotazione.isPresent()) {
-            logger.info("Aggiornamento prenotazione con ID: {}", prenotazione.getId());
+            logger.info("Aggiornamento prenotazione con ID: {}", prenotazione.getEventoId());
             return Optional.of(prenotazioneRepository.save(prenotazione));
         } else {
-            logger.warn("Prenotazione con ID {} non trovata", prenotazione.getId());
+            logger.warn("Prenotazione con ID {} non trovata", prenotazione.getEventoId());
             return Optional.empty();
         }
     }
@@ -66,4 +80,6 @@ public class PrenotazioneService {
             return false;
         }
     }
+
+
 }
