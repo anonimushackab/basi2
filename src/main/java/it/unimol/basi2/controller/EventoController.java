@@ -76,6 +76,14 @@ public class EventoController {
         return eventi.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(eventi);
     }
 
+    //READ: Ottineni titti gli eventi con posti disponibili
+
+    @GetMapping("/eventi-disponibili")
+    public ResponseEntity<List<Evento>> getEventiDisponibili() {
+        List<Evento> eventi = eventoService.findEventiConPostiDisponibili();
+        return eventi.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(eventi);
+    }
+
     // UPDATE: Aggiorna un evento esistente
     @PutMapping("/{id}")
     public ResponseEntity<Evento> updateEvento(@PathVariable String id, @RequestBody Evento evento) {
