@@ -61,12 +61,6 @@ public class EventoController {
         return eventiFuturi.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(eventiFuturi);
     }
 
-    // READ: Ottieni tutti gli eventi con posti disponibili maggiori di un certo numero
-    @GetMapping("/posti-disponibili")
-    public ResponseEntity<List<Evento>> getEventiConPostiDisponibili(@RequestParam int postiDisponibili) {
-        List<Evento> eventi = eventoService.getEventiConPostiDisponibili(postiDisponibili);
-        return eventi.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(eventi);
-    }
 
     // READ: Ottieni tutti gli eventi con un prezzo inferiore a un certo valore
     @GetMapping("/prezzo-inferiore")
