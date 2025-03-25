@@ -7,11 +7,13 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class EventoService {
     private final EventoRepository eventoRepository;
 
     // CREATE: Inserisci un nuovo evento
+    @Transactional
     public Evento insertEvento(Evento evento) {
         // Verifica se esiste già un evento con lo stesso nome (case-insensitive)
         Optional<Evento> existingEvento = eventoRepository.findByNomeIgnoreCase(evento.getNome());
@@ -58,22 +61,27 @@ public class EventoService {
         return eventoRepository.findByDataGreaterThanEqual(now);
     }
 
-    // READ: Ottieni tutti gli eventi con posti disponibili maggiori di un certo numero
-    public List<Evento> getEventiConPostiDisponibili(int postiDisponibili) {
-        return eventoRepository.findByPostiDisponibiliGreaterThan(postiDisponibili);
+
+    // READ: Ottieni tutti gli eventi con posti disponibili
+    public  List<Evento> findEventiConPostiDisponibili(){
+        List<Evento> evento = eventoRepository.findAll();
+        return evento.stream()
+                .filter(e -> e.getCapacitaMassima() > 0)
+                .collect(Collectors.toList());
     }
 
     // READ: Ottieni tutti gli eventi con un prezzo inferiore a un certo valore
+
     public List<Evento> getEventiConPrezzoInferioreA(double prezzo) {
         return eventoRepository.findEventiConPrezzoInferioreA(prezzo);
     }
-
     // READ: Ottieni tutti gli eventi il cui nome contiene una stringa (case-insensitive)
+
     public List<Evento> getEventiByNomeContaining(String nome) {
         return eventoRepository.findEventiByNomeContaining(nome);
     }
-
     // UPDATE: Aggiorna un evento esistente
+
     public Optional<Evento> updateEvento(Evento evento) {
         Optional<Evento> existingEvento = eventoRepository.findById(evento.getId());
         if (existingEvento.isPresent()) {
@@ -90,8 +98,8 @@ public class EventoService {
             return Optional.empty();
         }
     }
-
     // DELETE: Elimina un evento per ID
+
     public boolean deleteEventoById(String eventoId) {
         if (eventoRepository.existsById(eventoId)) {
             logger.info("Eliminazione evento con ID: {}", eventoId);
