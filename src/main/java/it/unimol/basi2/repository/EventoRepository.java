@@ -20,7 +20,6 @@ public interface EventoRepository extends MongoRepository<Evento, String> {
 
     List<Evento> findByDataBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-    List<Evento> findByPostiDisponibiliGreaterThan(int postiDisponibili);
 
     @Query("{ 'prezzo': { $lt: ?0 } }")
     List<Evento> findEventiConPrezzoInferioreA(double prezzo);
