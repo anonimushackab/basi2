@@ -54,7 +54,7 @@ public class PrenotazioneController {
     }
 
     // UPDATE: Aggiorna una prenotazione esistente
-    @PutMapping("/{id}")
+    @PutMapping("/{eventoId}")
     public ResponseEntity<Prenotazione> updatePrenotazione(@PathVariable String eventoId, @RequestBody Prenotazione prenotazione) {
         prenotazione.setEventoId(eventoId); // Assicurati che l'ID sia impostato correttamente
         Optional<Prenotazione> prenotazioneAggiornata = prenotazioneService.updatePrenotazione(prenotazione);
@@ -62,9 +62,9 @@ public class PrenotazioneController {
     }
 
     // DELETE: Elimina una prenotazione per ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePrenotazioneById(@PathVariable String id) {
-        boolean eliminato = prenotazioneService.deletePrenotazioneById(id);
+    @DeleteMapping("/{eventoId}")
+    public ResponseEntity<String> deletePrenotazioneByEventoId(@PathVariable String eventoId) {
+        boolean eliminato = prenotazioneService.deletePrenotazioneByEventoId(eventoId);
         return eliminato ? ResponseEntity.ok("Prenotazione eliminata") : ResponseEntity.notFound().build();
     }
 }

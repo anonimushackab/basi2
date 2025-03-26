@@ -22,7 +22,7 @@ public class PartecipanteService {
         Optional<Partecipante> existingPartecipante = partecipanteRepository.findByEmail(partecipante.getEmail());
         if (existingPartecipante.isPresent()) {
             logger.warn("Partecipante con email '{}' già esistente", partecipante.getEmail());
-            return null; // Oppure lancia un'eccezione personalizzata
+            return null; 
         } else {
             logger.info("Inserimento partecipante: {}", partecipante.getEmail());
             return partecipanteRepository.save(partecipante);
