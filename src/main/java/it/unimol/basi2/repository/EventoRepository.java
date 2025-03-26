@@ -34,4 +34,6 @@ public interface EventoRepository extends MongoRepository<Evento, String> {
     boolean existsById(String eventoId);
 
     void deleteById(String eventoId);
+
+    List<Evento> findAllByPostiDisponibiliGreaterThan(int postiDisponibili);
 }
