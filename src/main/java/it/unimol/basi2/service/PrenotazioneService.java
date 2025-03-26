@@ -32,13 +32,13 @@ public class PrenotazioneService {
         Evento evento = eventoRepository.findById(prenotazione.getEventoId())
                 .orElseThrow(() -> new RuntimeException("Evento non trovato"));
 
-        if (evento.getCapacitaMassima() - prenotazioneRepository.countByEventoId(evento.getId()) >= prenotazione.getNumeroBiglietti()) {
+        if (evento.getCapacitaMassima() - evento.getPostiDisponibili() >= prenotazione.getNumeroBiglietti()) {
             throw new RuntimeException("Posti non disponibili");
         }
 
+        evento.setPostiDisponibili(evento.getPostiDisponibili() - prenotazione.getNumeroBiglietti());
         // Inserisci la prenotazione
-        Prenotazione nuovaPrenotazione = prenotazioneRepository.save(prenotazione);
-        return nuovaPrenotazione;
+        return prenotazioneRepository.save(prenotazione);
     }
 
     // READ: Ottieni una prenotazione per ID
@@ -69,14 +69,14 @@ public class PrenotazioneService {
         }
     }
 
-    // DELETE: Elimina una prenotazione per ID
-    public boolean deletePrenotazioneById(String prenotazioneId) {
-        if (prenotazioneRepository.existsById(prenotazioneId)) {
-            logger.info("Eliminazione prenotazione con ID: {}", prenotazioneId);
-            prenotazioneRepository.deleteById(prenotazioneId);
+    // DELETE: Elimina una prenotazione per eventoId
+    public boolean deletePrenotazioneByEventoId(String eventoId) {
+        if (prenotazioneRepository.existsById(eventoId)) {
+            logger.info("Eliminazione prenotazione con ID: {}", eventoId);
+            prenotazioneRepository.deleteByEventoId(eventoId);
             return true;
         } else {
-            logger.warn("Prenotazione con ID {} non trovata", prenotazioneId);
+            logger.warn("Prenotazione con ID {} non trovata", eventoId);
             return false;
         }
     }

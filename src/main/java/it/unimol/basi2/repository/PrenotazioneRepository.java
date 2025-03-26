@@ -15,8 +15,9 @@ public interface PrenotazioneRepository extends MongoRepository<Prenotazione, St
 
     List<Prenotazione> findByDataPrenotazione(LocalDateTime dataPrenotazione);
 
-    List<Prenotazione> findByEventoId(String eventoId);
 
     int countByEventoId(String eventoId);
+
+    void deleteByEventoId(String eventoId);
 
 }
