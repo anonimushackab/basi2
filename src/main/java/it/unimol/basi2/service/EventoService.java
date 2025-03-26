@@ -1,7 +1,9 @@
 package it.unimol.basi2.service;
 
 import it.unimol.basi2.entity.Evento;
+import it.unimol.basi2.entity.Prenotazione;
 import it.unimol.basi2.repository.EventoRepository;
+import it.unimol.basi2.repository.PrenotazioneRepository;
 import lombok.AllArgsConstructor;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class EventoService {
     private static final Logger logger = LoggerFactory.getLogger(EventoService.class);
     private final EventoRepository eventoRepository;
+    private final PrenotazioneRepository prenotazioneRepository;
 
     // CREATE: Inserisci un nuovo evento
     @Transactional
@@ -63,11 +66,8 @@ public class EventoService {
 
 
     // READ: Ottieni tutti gli eventi con posti disponibili
-    public  List<Evento> findEventiConPostiDisponibili(){
-        List<Evento> evento = eventoRepository.findAll();
-        return evento.stream()
-                .filter(e -> e.getCapacitaMassima() > 0)
-                .collect(Collectors.toList());
+    public List<Evento> findEventiConPostiDisponibili(){
+        return eventoRepository.findAllByPostiDisponibiliGreaterThan(0);
     }
 
     // READ: Ottieni tutti gli eventi con un prezzo inferiore a un certo valore
