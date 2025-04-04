@@ -37,6 +37,8 @@ public class PrenotazioneService {
         }
 
         evento.setPostiDisponibili(evento.getPostiDisponibili() - prenotazione.getNumeroBiglietti());
+
+        eventoRepository.save(evento);
         // Inserisci la prenotazione
         return prenotazioneRepository.save(prenotazione);
     }
