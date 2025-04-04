@@ -1,5 +1,6 @@
-version: '3.8'
+
 services:
+
   mongodb:
     image: mongo
     container_name: mongodb
@@ -11,6 +12,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=rootuser
       - MONGO_INITDB_ROOT_PASSWORD=rootpass
   #      - MONGO_INITDB_DATABASE=project
+
+
   mongo-express:
     image: mongo-express
     container_name: mongo-express
@@ -21,6 +24,20 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
       - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
     restart: unless-stopped
+
+  app:
+    build: .
+    container_name: basi2-app
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - mongo-express
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://rootuser:rootpass@mongodb:27017/mongodb?authSource=admin
+
+
 volumes:
   data: {}
 networks:
