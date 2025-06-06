@@ -99,5 +99,6 @@ public class EventoController {
         return eliminato ? ResponseEntity.ok("Evento eliminato") : ResponseEntity.notFound().build();
     }
 
+
     
 }
