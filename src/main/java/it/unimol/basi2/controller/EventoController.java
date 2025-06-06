@@ -98,4 +98,5 @@ public class EventoController {
         boolean eliminato = eventoService.deleteEventoById(id);
         return eliminato ? ResponseEntity.ok("Evento eliminato") : ResponseEntity.notFound().build();
     }
+    
 }
