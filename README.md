@@ -1,8 +1,8 @@
-# Newspaper
+# Events
 
 ## Idea
 
-This project is a backend written in Java that simulates a database where a newspaper can insert articles and publications, and users can purchase those publications.
+This project is a backend written in Java that simulates a database where an event (for example: a concert, a theater event etc...) can be inserted deleted and so on. Each event can be assigned a participant.
 
 # How to use
 
