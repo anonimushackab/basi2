@@ -28,4 +28,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: yourdockeruser/basi2:latest
+          tags: anonimushackab/basi2:latest
+
+
